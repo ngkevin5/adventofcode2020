@@ -2,27 +2,49 @@
 const getInput = () => {
     fs = require('fs');
     let input = fs.readFileSync('day1input.txt').toString();
-    return inputArray = input.split('\r\n');
+    let inputArray = input.split('\r\n');
+    return inputArray.map((number) => {
+        return Number(number);
+    })
 }
 
 const partOne = () => {
     const targetSum = 2020;
-    const seen = {};
+    const seen = [];
     const inputArray = getInput();
 
     for (let i = 0; i < inputArray.length; i++) {
-        let complement = targetSum - Number(inputArray[i]);
+        let complement = targetSum - inputArray[i];
         if (seen[complement]) {
-            return complement * Number(inputArray[i]);
+            return complement * inputArray[i];
         }
 
-        seen[Number(inputArray[i])] = true;
+        seen[inputArray[i]] = true;
     }
 }
 
 const partTwo = () => {
-    let inputArray = getInput;
+    const targetSum = 2020;
+    const inputArraySorted = getInput().sort(function (a, b) { return a - b });
+    let left = 0;
+    let right = inputArraySorted.length - 1;
+
+    for (let i = 0; i < inputArraySorted.length - 2; i++) {
+        left = i + 1;
+        right = inputArraySorted.length - 1;
+        while (left < right) {
+            let currentSum = inputArraySorted[i] + inputArraySorted[left] + inputArraySorted[right];
+            if (currentSum > targetSum) {
+                right = right - 1;
+            } else if (currentSum < targetSum) {
+                left = left + 1;
+            } else if (currentSum === targetSum) {
+                return (inputArraySorted[i] * inputArraySorted[left] * inputArraySorted[right])
+            }
+        }
+    }
 
 }
 
 console.log(partOne());
+console.log(partTwo());
