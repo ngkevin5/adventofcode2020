@@ -71,7 +71,12 @@ const partTwo = () => {
                 }
 
                 /*
-                this didn't work for right1Down1. Why?
+                This didn't work for right1Down1. Why?
+
+                Answer: It's because right1Down1 moves one element at a time. You n
+                need to  use >= instead of just >. This worked for right3Down1 because it 
+                moves more than one step so there's a higher chance the currentIndex will be greater and
+                never equal. You were going out of bounds when you only used >. undefined !== #
 
                 while (metaData[key].currentIndex > input[i].length) {
                     input[i] = input[i] + input[i];
@@ -90,7 +95,6 @@ const partTwo = () => {
         result = result * metaData[key].treeCount;
     }
 
-    console.log(metaData);
     return result;
 }
 
