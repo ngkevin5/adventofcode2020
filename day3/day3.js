@@ -12,8 +12,8 @@ const partOne = () => {
     let indexToCheck = 3;
     let trees = 0;
     for (let i = 1; i < input.length; i++) {
-        while (indexToCheck > input[i].length) {
-            input[i] = input[i] + input[i];
+        if (indexToCheck >= input[i].length) {
+            indexToCheck -= input[i].length;
         }
 
         if (input[i][indexToCheck] === '#') {
@@ -97,7 +97,6 @@ const partTwo = () => {
 
     return result;
 }
-
 
 console.log(partOne());
 console.log(partTwo());
