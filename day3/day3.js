@@ -70,6 +70,14 @@ const partTwo = () => {
                     metaData[key].currentIndex -= input[i].length;
                 }
 
+                /*
+                this didn't work for right1Down1. Why?
+
+                while (metaData[key].currentIndex > input[i].length) {
+                    input[i] = input[i] + input[i];
+                }
+                */
+
                 if (input[i][metaData[key].currentIndex] === '#') {
                     metaData[key].treeCount++;
                 }
@@ -82,6 +90,7 @@ const partTwo = () => {
         result = result * metaData[key].treeCount;
     }
 
+    console.log(metaData);
     return result;
 }
 
