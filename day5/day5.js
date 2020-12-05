@@ -45,7 +45,7 @@ const generatePlaneSeats = (type) => {
     return seats;
 }
 
-const partOne = () => {
+const getBoardingPasses = () => {
     const input = getInput();
     let seatRows = generatePlaneSeats("rows");
     let seatColumns = generatePlaneSeats("columns");
@@ -58,8 +58,26 @@ const partOne = () => {
         let column = getRowOrColumn(seatColumns, columnInstructions);
         results.push((row * 8) + column);
     });
+    return results;
+}
 
-    return Math.max(...results);
+const partOne = () => {
+    const boardingPasses = getBoardingPasses();
+    return Math.max(...boardingPasses);
+}
+
+const partTwo = () => {
+    const boardingPasses = getBoardingPasses();
+    const sortedBoardingPasses = boardingPasses.sort(function (a, b) { return a - b });
+    for (let i = 1; i < sortedBoardingPasses.length; i++) {
+        if (sortedBoardingPasses[i] - sortedBoardingPasses[i - 1] !== 1) {
+            console.log(`${sortedBoardingPasses[i - 1]} & ${sortedBoardingPasses[i]}. Your passport must be: ${sortedBoardingPasses[i] - 1}`)
+            return sortedBoardingPasses[i] - 1;
+        }
+    }
+
+    return -1;
 }
 
 console.log(partOne());
+console.log(partTwo());
