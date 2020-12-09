@@ -1,3 +1,5 @@
+const { ifError } = require('assert');
+
 const getInput = () => {
     fs = require('fs');
     let input = fs.readFileSync('day9input.txt').toString();
@@ -7,27 +9,40 @@ const getInput = () => {
     })
 }
 
-const partOne = () => {
-    const input = getInput();
-    const preambleLength = 5;
-    const validSums = {};
+const getValidSums = (input, index, preambleLength) => {
+    let start = index - preambleLength;
+    let end = index + preambleLength;
 
-    for(let i = 0; i < preambleLength; i++) {
-        for(let j = i + 1; j < preambleLength; j++) {
-            console.log(input[i], input[j], input[i] + input[j])
+    if (start < 0) {
+        start = 0;
+    }
+
+    if (end >= input.length) {
+        end = input.length - 1;
+    }
+
+    let validSums = {};
+    for (let i = start; i < end; i++) {
+        for (let j = i + 1; j < end; j++) {
             validSums[input[i] + input[j]] = true;
         }
     }
 
-    console.log(validSums);
+    return validSums;
+}
 
-    for(let i = preambleLength; i < input.length; i++) {
-        if(!validSums[input[i]]){
+const partOne = () => {
+    const input = getInput();
+    const preambleLength = 25;
+
+    for (let i = preambleLength; i < input.length; i++) {
+        const sums = getValidSums(input, i, preambleLength);
+        if (!sums[input[i]]) {
             return input[i];
         }
     }
 
-    
+
 }
 
 console.log(partOne());
