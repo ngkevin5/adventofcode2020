@@ -41,8 +41,48 @@ const partOne = () => {
             return input[i];
         }
     }
+}
 
+const getSumOfRange = (input, index1, index2) => {
+    let sum = input[index1];
+    for (let i = index1 + 1; i <= index2; i++) {
+        sum += input[i];
+    }
 
+    return sum;
+}
+
+const partTwo = () => {
+    const input = getInput();
+    let i = 0;
+    let j = 1;
+    let target = 144381670;
+    let sum = 0
+
+    while (j < input.length && sum !== target) {
+
+        while (sum < target) {
+            j++;
+            sum = getSumOfRange(input, i, j);
+        }
+
+        while (sum > target) {
+            i++;
+            sum = getSumOfRange(input, i, j);
+        }
+    }
+
+    let result = [];
+    for (let start = i; start <= j; start++) {
+        result.push(input[start]);
+    }
+
+    result = result.sort(function (a, b) {
+        return a - b;
+    });
+
+    return result[0] + result[result.length - 1];
 }
 
 console.log(partOne());
+console.log(partTwo());
