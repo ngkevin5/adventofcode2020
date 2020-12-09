@@ -58,23 +58,19 @@ const checkBag = (bags, bagName, multiplier, accumulator) => {
     }
 
     for (childBag in bags[bagName]) {
-        let value = multiplier * checkBag(bags, childBag, multiplier * bags[bagName][childBag], accumulator);
+        checkBag(bags, childBag, multiplier * bags[bagName][childBag], accumulator);
     }
-
-    return 0;
 }
 
 const partTwo = () => {
     const input = getInput();
     const bags = organizeBags(input);
-    console.log(bags);
     let accumulator = [];
     let count = 0;
     let requirements = bags['shiny gold'];
     for (let bag in requirements) {
         count = checkBag(bags, bag, requirements[bag], accumulator);
     }
-
 
     return accumulator.reduce((sum, currentValue) => {
         return sum += currentValue
