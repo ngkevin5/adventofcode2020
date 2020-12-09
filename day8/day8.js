@@ -17,36 +17,66 @@ var performOperation = {
     '-': function (x, y) { return x - y }
 };
 
-const partOne = () => {
-    const instructions = getInput();
+
+const runInstructions = (instructions) => {
     let seenInstruction = {};
     let accumulator = 0;
 
     let i = 0;
     while (i < instructions.length) {
         if (seenInstruction[i]) {
-            break;
+            return { accumulator, status: 'loop' };
         }
         seenInstruction[i] = true;
         const { operator, operand, instruction } = instructions[i];
         switch (instruction.toLowerCase()) {
             case 'acc':
-                console.log(`doing ${accumulator} ${operator} ${operand}`)
                 accumulator = performOperation[operator](accumulator, operand);
                 i++;
                 break;
             case 'jmp':
-                console.log(`jumping ${i} ${operator} ${operand}`)
                 i = performOperation[operator](i, operand);
                 break;
             default:
-                console.log('do nothing');
                 i++;
                 break;
         }
     }
 
-    return accumulator;
+    return { accumulator, status: 'complete' };
+}
+
+const partOne = () => {
+    const instructions = getInput();
+    return runInstructions(instructions).accumulator;
+};
+
+const swap = (type) => {
+    if (type === 'nop') {
+        return 'jmp';
+    }
+    else {
+        return 'nop';
+    }
+}
+
+const partTwo = () => {
+    const instructions = getInput();
+    let j = 0;
+
+
+    for (j = 0; j < instructions.length; j++) {
+        if (instructions[j].instruction === 'nop' || instructions[j].instruction === 'jmp') {
+            let newInstructions = instructions.map(a => Object.assign({}, a));
+            newInstructions[j].instruction = swap(newInstructions[j].instruction)
+            const results = runInstructions(newInstructions);
+            if (results.status === 'complete') {
+                return results.accumulator;
+            }
+        }
+    }
+
 };
 
 console.log(partOne());
+console.log(partTwo());
