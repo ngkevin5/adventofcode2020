@@ -1,5 +1,3 @@
-const { ifError } = require('assert');
-
 const getInput = () => {
     fs = require('fs');
     let input = fs.readFileSync('day9input.txt').toString();
