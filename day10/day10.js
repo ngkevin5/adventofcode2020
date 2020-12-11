@@ -7,18 +7,18 @@ const getInput = () => {
     })
 }
 
-const addOutlet = (adaptors) => {
-    return [...adaptors, 0]
+const addOutlet = (adapters) => {
+    return [...adapters, 0]
 }
 
-const addDeviceJoltage = (sortedAdaptors) => {
-    return [...sortedAdaptors, sortedAdaptors[sortedAdaptors.length - 1] + 3]
+const addDeviceJoltage = (sortedAdapters) => {
+    return [...sortedAdapters, sortedAdapters[sortedAdapters.length - 1] + 3]
 }
 
 const partOne = () => {
-    let adaptors = getInput();
-    adaptors = addOutlet(adaptors);
-    let sortedAdaptors = adaptors.sort((a, b) => a - b);
+    let adapters = getInput();
+    adapters = addOutlet(adapters);
+    let sortedAdaptors = adapters.sort((a, b) => a - b);
     sortedAdaptors = addDeviceJoltage(sortedAdaptors);
 
     let oneCount = 0;
@@ -37,8 +37,36 @@ const partOne = () => {
 
 }
 
+//had to look this concept up
+const tribonacci = (n) => {
+    if (n < 2)
+        return 0;
+    if (n === 3)
+        return 1;
+    else
+        return tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3);
+}
+
 const partTwo = () => {
-    return null;
+    let adapters = getInput();
+    adapters = addOutlet(adapters);
+    let sortedAdaptors = adapters.sort((a, b) => a - b);
+    sortedAdaptors = addDeviceJoltage(sortedAdaptors);
+    let oneCount = 0;
+    let result = 1;
+
+    for (let i = 1; i < sortedAdaptors.length; i++) {
+        if (sortedAdaptors[i] - sortedAdaptors[i - 1] === 1) {
+            oneCount++;
+        }
+        else if (sortedAdaptors[i] - sortedAdaptors[i - 1] === 3) {
+            result *= tribonacci(oneCount + 3);
+            oneCount = 0;
+        }
+    }
+
+    return result;
+
 }
 
 console.log(partOne());
