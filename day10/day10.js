@@ -7,56 +7,39 @@ const getInput = () => {
     })
 }
 
-const getDeviceJoltage = (adaptors) => {
-    return Math.max(...adaptors) + 3;
+const addOutlet = (adaptors) => {
+    return [...adaptors, 0]
+}
+
+const addDeviceJoltage = (sortedAdaptors) => {
+    return [...sortedAdaptors, sortedAdaptors[sortedAdaptors.length - 1] + 3]
 }
 
 const partOne = () => {
-    const adaptors = getInput();
-    let currentJoltage = 0;
-    let differences = {};
-    const pluggedIn = {};
-    let deviceJoltage = getDeviceJoltage(adaptors);
-    adaptors.push(deviceJoltage);
-
-    while (adaptors.length > 0) {
-        for (let i = 0; i < adaptors.length; i++) {
-            const adaptor = adaptors[i]
-            const difference = adaptor - currentJoltage;
-            differences[adaptor] = difference;
-        }
-
-        let min = Number.MAX_VALUE;
-        let minKey = 0;
-        for (difference in differences) {
-            if (differences[difference] < min) {
-                min = differences[difference];
-                minKey = difference;
-            }
-        }
-
-
-        pluggedIn[minKey] = min;
-        adaptors.splice(adaptors.indexOf(Number(minKey)), 1);
-
-        currentJoltage = minKey;
-        differences = {};
-    }
+    let adaptors = getInput();
+    adaptors = addOutlet(adaptors);
+    let sortedAdaptors = adaptors.sort((a, b) => a - b);
+    sortedAdaptors = addDeviceJoltage(sortedAdaptors);
 
     let oneCount = 0;
     let threeCount = 0;
 
-    for (let i in pluggedIn) {
-        if (pluggedIn[i] == 1) {
-            oneCount++
+    for (let i = 1; i < sortedAdaptors.length; i++) {
+        if (sortedAdaptors[i] - sortedAdaptors[i - 1] === 1) {
+            oneCount++;
         }
-
-        if (pluggedIn[i] == 3) {
+        else if (sortedAdaptors[i] - sortedAdaptors[i - 1] === 3) {
             threeCount++;
         }
     }
+
     return { oneCount, threeCount, answer: oneCount * threeCount };
 
 }
 
+const partTwo = () => {
+    return null;
+}
+
 console.log(partOne());
+console.log(partTwo());
